@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"net/http"
 )
 
@@ -11,6 +12,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	port, exists := os.LookupEnv("PORT") 
+	if !exists {
+		port = "8080"
+	}
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":443", nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
